@@ -1,12 +1,9 @@
 import { Component } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { NavController } from 'ionic-angular';
-import { CHATS } from './mock-chats'
+import { CHATS } from './mock-chats';
+import { MessagesPage, Message } from '../messages/messages';
 
-export class Message{
-  id:number;
-  content:string;
-  createdAt: Date;
-}
 
 export class Chat{
   id: number;
@@ -32,6 +29,10 @@ export class ChatsPage {
     this.chats=CHATS;
 
   }
+  showMessage(chat:Chat){
+    this.navCtrl.push(MessagesPage, { chat });
+  }
+
 	remove(chat:Chat){
 		let index=this.chats.indexOf(chat);
 		this.chats.splice(index,1);
