@@ -4,7 +4,6 @@ import { DatePipe } from '@angular/common';
 import {Chat } from '../chats/chats'
 
 export class Message{
-  id:number;
   content:string;
   createdAt: Date;
 }
