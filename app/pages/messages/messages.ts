@@ -1,29 +1,42 @@
-import { Component } from '@angular/core';
+import { Component , Input} from '@angular/core';
 import { NavController,NavParams } from 'ionic-angular';
 import { DatePipe } from '@angular/common';
-import {Chat } from '../chats/chats'
+import { ChatProvider,Message,Chat } from '../../providers/chat/chat';
+import { SanitizePipe } from '../../pipes/sanitizePipe';
 
-export class Message{
-  content:string;
-  createdAt: Date;
-}
 
-/*
-  Generated class for the MessagesPage page.
 
-  See http://ionicframework.com/docs/v2/components/#navigation for more info on
-  Ionic pages and navigation.
-*/
+
 @Component({
   templateUrl: 'build/pages/messages/messages.html',
+  providers:[ChatProvider],
+  pipes: [SanitizePipe]
 })
 export class MessagesPage {
   activeChat:Chat;
+  messages:Message[];
 
-  constructor(private navCtrl: NavController, private params: NavParams) {
+  @Input()
+  currentMessage:Message=new Message();
+
+  constructor(private navCtrl: NavController, private params: NavParams, private chatProvider:ChatProvider) {
     this.activeChat=params.get('chat');
-		console.log('data'+this.activeChat	);
 
+  }
+
+  ngOnInit(){
+    this.chatProvider.getMessages(this.activeChat).subscribe(msgs=> this.messages=msgs );
+  }
+  send(keyKode:KeyboardEvent){
+    if (keyKode.charCode==13){
+      this.currentMessage.createdAt=new Date();
+      this.currentMessage.isMine=true;
+      this.messages.push(this.currentMessage);
+      this.chatProvider.sendMesssage(this.currentMessage,this.activeChat).subscribe(msg =>{
+        this.currentMessage=new Message();
+        this.messages.push(msg);
+      });	
+    }
   }
 
 }
