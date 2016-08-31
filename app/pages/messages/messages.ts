@@ -1,5 +1,5 @@
-import { Component , Input} from '@angular/core';
-import { NavController,NavParams } from 'ionic-angular';
+import { Component ,ElementRef, Input,ViewChild } from '@angular/core';
+import { NavController,NavParams , Scroll} from 'ionic-angular';
 import { DatePipe } from '@angular/common';
 import { ChatProvider,Message,Chat } from '../../providers/chat/chat';
 import { SanitizePipe } from '../../pipes/sanitizePipe';
@@ -10,11 +10,14 @@ import { SanitizePipe } from '../../pipes/sanitizePipe';
 @Component({
   templateUrl: 'build/pages/messages/messages.html',
   providers:[ChatProvider],
-  pipes: [SanitizePipe]
+  pipes: [SanitizePipe],
 })
 export class MessagesPage {
   activeChat:Chat;
   messages:Message[];
+  observer:MutationObserver;
+  @ViewChild('msgContent')
+  msgContent:any;
 
   @Input()
   currentMessage:Message=new Message();
@@ -25,7 +28,16 @@ export class MessagesPage {
   }
 
   ngOnInit(){
-    this.chatProvider.getMessages(this.activeChat).subscribe(msgs=> this.messages=msgs );
+    this.chatProvider.getMessages(this.activeChat).subscribe(msgs=>this.messages=msgs );
+    this.observer=new MutationObserver(mutations=>{
+      let last:any=mutations[mutations.length-1].target;
+      last.scrollIntoView();
+    });
+    this.observer.observe(this.msgContent.elementRef.nativeElement,{ childList:true, subtree: true });
+  }
+
+  ngOnDestroy(){
+    this.observer.disconnect();
   }
   send(keyKode:KeyboardEvent){
     if (keyKode.charCode==13){

@@ -10,9 +10,9 @@
     </ion-buttons>
   </ion-navbar>
 </ion-header>
-<ion-content padding class="messages-page-content">
-  <ion-scroll scrollY="true" class="messages">
-    <div *ngFor="let message of messages" class="message-wrapper" my-scroll-down >
+<ion-content padding class="messages-page-content" #msgContent >
+  <ion-scroll  scrollY="true" class="messages">
+    <div  *ngFor="let message of messages" class="message-wrapper" my-scroll-down >
       <div class="message" [ngClass]="{ 'message-mine': message.isMine, 'message-other': !message.isMine }">
         <div class="message-content" [innerHTML]="message.content | sanitizePipe" ></div>
         <div class="message-timestamp">{{message.createdAt | date:'y/MM/dd HH:mm' }}</div>

@@ -22,7 +22,7 @@
       <button ion-item  class="chat" (click)="showMessage(chat)" >
         <img class="chat-picture" [src]="chat.picture">
         <div class="chat-info">
-          <h2 class="chat-title">{{chat.title}}</h2>
+          <h2 class="chat-title">{{chat.title | uppercase }}</h2>
           <span *ngIf="chat.lastMessage" class="last-message">
             <p class="last-message-content">{{chat.lastMessage.content}}</p>
             <span class="last-message-timestamp">{{chat.lastMessage.createdAt| date}}</span>

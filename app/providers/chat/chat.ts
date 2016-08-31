@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Injectable,Inject } from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { Observable }     from 'rxjs/Observable';
+import { CleverbotService  } from '../cleverbot/cleverbot'
 
 declare var  randomWords:any;
-declare var  cleverbot:any;
 
 export class Chat{
 	title: string;
@@ -27,8 +27,7 @@ export class Message{
 export class ChatProvider {
 
 	private urluser="http://api.randomuser.me/?results=10";
-	private bot= new cleverbot("TfIxXerlZ9H7X2oM", "ryXfNBURqgBDdSFYwvHUdalj2grhClRX");
-	constructor(private http: Http) {
+	constructor(private http: Http,  private cleverbot:CleverbotService) {
 
 	}
 
@@ -40,7 +39,7 @@ export class ChatProvider {
 		.map(response => {
       let messages=[];
       for (let  ms of response.json()){
-        messages.push({content:ms.content.replace(/<\/?p>/g,''), createdAt:  this.randomDate(), isMine: false });
+        messages.push({content:ms.content, createdAt:  this.randomDate(), isMine: false });
        }
         messages.push(chat.lastMessage);
 			return messages;
@@ -63,15 +62,9 @@ export class ChatProvider {
 		});
 	}
   sendMesssage(msg:Message,chat:Chat):Observable<Message>{
-    this.bot.setNick(chat.title);
-    return Observable.create(subscriber=>{
-      this.bot.create((err,session) =>{
-        this.bot.ask(msg.content,(err,response)=>{
-          let msg= {content:response, createdAt: new Date()}
-          subscriber.next(msg);
-          subscriber.complete();
-        });
-      });
+    this.cleverbot.key={user:"TfIxXerlZ9H7X2oM", key:"ryXfNBURqgBDdSFYwvHUdalj2grhClRX"}
+    return this.cleverbot.ask(chat.title,msg.content).map(response=>{
+      return {content:response,createdAt:new Date(),isMine:false};
     });
   }
   private randomDate(start:Date=new Date(2015,1,1)):Date {
