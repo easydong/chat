@@ -22,13 +22,10 @@
 </ion-content>
 <ion-footer>
   <ion-toolbar whatsapp class="messages-page-footer" position="bottom">
-    <ion-input [(ngModel)]="currentMessage.content" (keypress)="send($event)" class="message-editor" placeholder="Type a message"></ion-input>
+    <ion-input [(ngModel)]="currentMessage.content" (keypress)="send($event)" class="message-editor" placeholder="Type a message" focus></ion-input>
     <ion-buttons end>
-      <button *ngIf="message" class="message-editor-button" (click)="sendMessage()">
+      <button *ngIf="currentMessage.content" class="message-editor-button" (click)="send()"  >
         <ion-icon name="send"></ion-icon>
-      </button>
-      <button *ngIf="!message" class="message-editor-button">
-        <ion-icon name="mic"></ion-icon>
       </button>
     </ion-buttons>
   </ion-toolbar>

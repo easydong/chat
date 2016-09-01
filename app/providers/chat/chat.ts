@@ -32,7 +32,7 @@ export class ChatProvider {
 	}
 
   private getUrlQuote(){
-    return  "http://quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]="+(Math.floor(Math.random() * 10)+1);
+    return  "http://quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]="+(Math.floor(Math.random() * 4)+1);
   }
   getMessages(chat:Chat):Observable<Message[]>{
 		return this.http.get(this.getUrlQuote())

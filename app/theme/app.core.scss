@@ -9,3 +9,6 @@
 
 @import "../pages/chats/chats.scss";
 @import "../pages/messages/messages.scss";
+.chat-title{
+  text-transform: capitalize;
+}

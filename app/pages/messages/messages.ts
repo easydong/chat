@@ -3,6 +3,8 @@ import { NavController,NavParams , Scroll} from 'ionic-angular';
 import { DatePipe } from '@angular/common';
 import { ChatProvider,Message,Chat } from '../../providers/chat/chat';
 import { SanitizePipe } from '../../pipes/sanitizePipe';
+import { Focus } from '../../components/focus/focus';
+import {Keyboard} from 'ionic-native';
 
 
 
@@ -11,6 +13,7 @@ import { SanitizePipe } from '../../pipes/sanitizePipe';
   templateUrl: 'build/pages/messages/messages.html',
   providers:[ChatProvider],
   pipes: [SanitizePipe],
+  directives:[Focus]
 })
 export class MessagesPage {
   activeChat:Chat;
@@ -18,6 +21,9 @@ export class MessagesPage {
   observer:MutationObserver;
   @ViewChild('msgContent')
   msgContent:any;
+  @ViewChild(Focus)
+  msgInput:Focus;
+
 
   @Input()
   currentMessage:Message=new Message();
@@ -39,16 +45,18 @@ export class MessagesPage {
   ngOnDestroy(){
     this.observer.disconnect();
   }
-  send(keyKode:KeyboardEvent){
-    if (keyKode.charCode==13){
+  send(keyKode:KeyboardEvent=undefined){
+    if (keyKode==undefined ||  keyKode.charCode==13){
       this.currentMessage.createdAt=new Date();
       this.currentMessage.isMine=true;
       this.messages.push(this.currentMessage);
-      this.chatProvider.sendMesssage(this.currentMessage,this.activeChat).subscribe(msg =>{
-        this.currentMessage=new Message();
+      let clon=Object.create(this.currentMessage);
+      this.chatProvider.sendMesssage(clon,this.activeChat).subscribe(msg =>{
         this.messages.push(msg);
       });	
+      this.currentMessage=new Message();
+      this.msgInput.setFocus();
+      Keyboard.show();
     }
   }
-
 }

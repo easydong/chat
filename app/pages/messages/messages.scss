@@ -17,7 +17,7 @@
   }
   .messages {
     height: 100%;
-    background-image: url(/assets/chat-background.jpg);
+    background-image: url(img/chat-background.jpg);
     background-color: #E0DAD6;
     background-repeat: no-repeat;
     background-size: cover;
@@ -42,7 +42,7 @@
       background-color: #DCF8C6;
       &::before {
         right: -11px;
-        background-image: url(/assets/message-mine.png)
+        background-image: url(img/message-mine.png)
       }
     }
     &.message-other {
@@ -50,7 +50,7 @@
       background-color: #FFF;
       &::before {
         left: -11px;
-        background-image: url(/assets/message-other.png)
+        background-image: url(img/message-other.png)
       }
     }
     &.message-other::before, &.message-mine::before {
