@@ -3,6 +3,10 @@ import { Http,URLSearchParams,Headers} from '@angular/http';
 import { Observable }     from 'rxjs/Rx';
 
 @Injectable()
+/*
+ * Service make request to the ceverbot api,
+ *
+ */
 export class CleverbotService {
 
   key={user:"",key:""};

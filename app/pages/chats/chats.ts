@@ -11,10 +11,7 @@ import { ChatProvider,Message,Chat } from '../../providers/chat/chat';
 
 
 /*
-	 Generated class for the ChatsPage page.
-
-	 See http://ionicframework.com/docs/v2/components/#navigation for more info on
-	 Ionic pages and navigation.
+   List of chats !!!
  */
 @Component({
 	templateUrl: 'build/pages/chats/chats.html',

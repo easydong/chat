@@ -2,10 +2,7 @@ import { Injectable, Pipe } from '@angular/core';
 import { DomSanitizationService } from '@angular/platform-browser';
 
 /*
-  Generated class for the SanitizePipe pipe.
-
-  See https://angular.io/docs/ts/latest/guide/pipes.html for more info on
-  Angular 2 Pipes.
+   Pipe to by pass the security sanityzer of angunlar
 */
 @Pipe({
   name: 'sanitizePipe'

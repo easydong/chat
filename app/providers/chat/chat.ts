@@ -4,6 +4,9 @@ import 'rxjs/add/operator/map';
 import { Observable }     from 'rxjs/Observable';
 import { CleverbotService  } from '../cleverbot/cleverbot'
 
+/*
+ * To use some regular Javascript in Typescript
+ */
 declare var  randomWords:any;
 
 export class Chat{
@@ -18,22 +21,22 @@ export class Message{
   isMine: boolean;
 }
 /*
-  Generated class for the Chat provider.
-
-  See https://angular.io/docs/ts/latest/guide/dependency-injection.html
-  for more info on providers and Angular 2 DI.
+   Data provider for the Chat application
 */
 @Injectable()
 export class ChatProvider {
 
 	private urluser="http://api.randomuser.me/?results=10";
 	constructor(private http: Http,  private cleverbot:CleverbotService) {
-
+    //api keys the cleverbot api, this are just for example
+    // to get new ones go to https://cleverbot.io/keys
+    this.cleverbot.key={user:"TfIxXerlZ9H7X2oM", key:"ryXfNBURqgBDdSFYwvHUdalj2grhClRX"}
 	}
 
   private getUrlQuote(){
     return  "http://quotesondesign.com/wp-json/posts?filter[orderby]=rand&filter[posts_per_page]="+(Math.floor(Math.random() * 4)+1);
   }
+
   getMessages(chat:Chat):Observable<Message[]>{
 		return this.http.get(this.getUrlQuote())
 		.map(response => {
@@ -61,12 +64,13 @@ export class ChatProvider {
 			return chats;
 		});
 	}
+
   sendMesssage(msg:Message,chat:Chat):Observable<Message>{
-    this.cleverbot.key={user:"TfIxXerlZ9H7X2oM", key:"ryXfNBURqgBDdSFYwvHUdalj2grhClRX"}
     return this.cleverbot.ask(chat.title,msg.content).map(response=>{
       return {content:response,createdAt:new Date(),isMine:false};
     });
   }
+
   private randomDate(start:Date=new Date(2015,1,1)):Date {
         return new Date(start.getTime() + Math.random() * (new Date().getTime() - start.getTime()));
   }

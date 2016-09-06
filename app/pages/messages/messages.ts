@@ -7,8 +7,6 @@ import { Focus } from '../../components/focus/focus';
 import {Keyboard} from 'ionic-native';
 
 
-
-
 @Component({
   templateUrl: 'build/pages/messages/messages.html',
   providers:[ChatProvider],
@@ -33,6 +31,9 @@ export class MessagesPage {
 
   }
 
+  /*
+   * initialize an MutationObserver who checks the changes of DOM messages and the adds focus to the last element
+   */
   ngOnInit(){
     this.chatProvider.getMessages(this.activeChat).subscribe(msgs=>this.messages=msgs );
     this.observer=new MutationObserver(mutations=>{
@@ -45,6 +46,9 @@ export class MessagesPage {
   ngOnDestroy(){
     this.observer.disconnect();
   }
+  /**
+   * Sends the message to the provider and stores the response 
+   */
   send(keyKode:KeyboardEvent=undefined){
     if (keyKode==undefined ||  keyKode.charCode==13){
       this.currentMessage.createdAt=new Date();
