@@ -16,6 +16,12 @@ in the directory of the project
 
 ```npm install ```
 
+Set up a clevebot api key in  ```app/providers/chat/chat.ts``` for example in the constructor:
+
+```this.cleverbot.key={user:"TfIxXerlZ9H7X2oM", key:"ryXfNBURqgBDdSFYwvHUdalj2grhClRX"}```
+
+you can get new ones in https://cleverbot.io/keys
+
 to run in local browser 
 
 ```ionic serve ```
